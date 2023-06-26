@@ -343,6 +343,20 @@ class LADXR(Game):
         items += [0] * (16 - len(items))
         self.__emulator.write_ram(0xDB00 - 0xC000, bytes(items))
 
+    @action(id="swordona", name="A button = sword (30 seconds)", cost=500)
+    def do_sword_on_a(self):
+        self.__emulator.write_rom(0x126F, b'\x3E\x01\x00')
+    @do_sword_on_a.timeout(30)
+    def end_sword_on_a(self):
+        self.__emulator.write_rom(0x126F, b'\xFA\x01\xDB')
+
+    @action(id="swordonb", name="B button = sword (30 seconds)", cost=500)
+    def do_sword_on_b(self):
+        self.__emulator.write_rom(0x1258, b'\x3E\x01\x00')
+    @do_sword_on_b.timeout(30)
+    def end_sword_on_b(self):
+        self.__emulator.write_rom(0x1258, b'\xFA\x00\xDB')
+
     @action(id="msg", name="Ingame message", cost=300)
     def do_message(self, message):
         while self.__emulator.read_ram8(0xDB95 - 0xC000) != 0x0B or self.__emulator.read_ram8(0xDB96 - 0xC000) != 0x07 or self.__emulator.read_ram8(0xC124 - 0xC000) != 0x00 or self.__emulator.read_ram8(0xC19F - 0xC000) != 0x00 or self.__emulator.read_hram8(0xA1 - 0x80) != 0x00:
