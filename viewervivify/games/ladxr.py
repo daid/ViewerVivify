@@ -46,10 +46,12 @@ class LADXR(Game):
         options = []
         for y in range(8):
             for x in range(10):
+                if (x, y) in {(0, 0), (9, 0), (0, 7), (9, 7)}:
+                    continue
                 obj = objects[x + y * 16 + 17]
                 if obj != 0x00:
                     flags = physics_flags[obj]
-                    if flags in {0x00, 0x02, 0x05, 0x06, 0x08, 0x0A}:
+                    if flags in {0x00, 0x02, 0x05, 0x06, 0x08, 0x0A, 0xF4, 0xF5, 0xF6, 0xF7}:
                         options.append((x, y))
         if indoor:
             # In case of indoor, try to prevent teleporting out of bounds.
